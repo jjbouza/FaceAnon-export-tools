@@ -1,0 +1,3 @@
+face-aligment/**
+*__pycache__*
+*.onnx
