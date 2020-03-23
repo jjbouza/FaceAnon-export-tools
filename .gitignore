@@ -1,3 +1,5 @@
 face-aligment/**
 *__pycache__*
 *.onnx
+build/
+.vscode
