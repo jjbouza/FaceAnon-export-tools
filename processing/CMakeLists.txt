@@ -3,7 +3,7 @@ project(processing)
 
 find_package(Torch REQUIRED)
 
-add_library(processing src/processing.cpp src/processing.h)
+add_library(processing SHARED src/processing.cpp src/processing.h src/processing_wrapper.cpp src/processing_wrapper.h)
 add_executable(processing_host src/host.cpp src/processing.cpp src/processing.h)
 target_link_libraries(processing "${TORCH_LIBRARIES}")
 target_link_libraries(processing_host "${TORCH_LIBRARIES}")
