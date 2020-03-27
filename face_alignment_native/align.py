@@ -10,8 +10,12 @@ processing = ctypes.CDLL(lib_loc)
 
 def run_align(fname):
     img = io.imread(fname).astype(np.float32)
-    img_pre = processing.preprocess_wrapper(img)
-    print(img_pre)
+    print(img.shape)
+    img_c = img.ctypes.data_as(ctypes.POINTER(ctypes.c_float))
+    img_pre = processing.preprocess_wrapper(img_c)
+    print(img.shape)
+
+
 
 result = run_align("img.jpg")
 
