@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(processing)
 
 find_package(Torch REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
 add_library(processing SHARED src/processing.cpp src/processing.h src/processing_wrapper.cpp src/processing_wrapper.h)
 add_executable(processing_host src/host.cpp src/processing.cpp src/processing.h)

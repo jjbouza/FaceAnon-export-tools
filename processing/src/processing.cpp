@@ -48,14 +48,14 @@ torch::Tensor postprocess(std::vector<torch::Tensor> olist){
         std::vector<torch::Tensor> poss = torch::where(torch::narrow(ocls, 1, 0, 1).squeeze(1) > 0.05);
 
         for(int i = 0; i < poss[0].sizes()[0]; i++){
-            long Iindex = poss[0][i].item<long>();
-            long hindex = poss[1][i].item<long>();
-            long windex = poss[2][i].item<long>();
+            int Iindex = poss[0][i].item<int>();
+            int hindex = poss[1][i].item<int>();
+            int windex = poss[2][i].item<int>();
 
             float axc = stride / 2 + windex*stride;
             float ayc = stride / 2 + hindex*stride;
 
-            float score = ocls[0][1][hindex][windex].item<long>();
+            float score = ocls[0][1][hindex][windex].item<float>();
 
             torch::Tensor loc = oreg.narrow(0, 0, 1).narrow(2, hindex, 1).narrow(3, windex, 1).contiguous().view({1,4});
 
