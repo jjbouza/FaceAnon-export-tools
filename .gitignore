@@ -2,6 +2,7 @@ face-aligment/**
 *__pycache__*
 *.onnx
 *.zip
+*.pt
 *.mlmodel
 build/
 .vscode
