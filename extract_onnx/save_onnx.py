@@ -13,7 +13,9 @@ def save_onnx(net, img, device):
     img = img.reshape((1,) + img.shape)
     img = torch.from_numpy(img).float().to(device)
     olist = net(img)
-    olist = torch.onnx.export(net, img, f='sfd_detector.onnx', export_params=True)
+    olist = torch.onnx.export(net, img, f='sfd_detector.onnx', export_params=True, input_names=['input_img'],
+                                output_names=['out1', 'out2', 'out3', 'out4', 'out5', 'out6', 'out7', 'out8', 'out9',
+                                              'out10', 'out11', 'out12'])
 
 #import s3df net
 
