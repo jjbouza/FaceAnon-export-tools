@@ -19,7 +19,7 @@ def save_onnx(net, img, device):
 
 from net_s3fd import s3fd
 
-device = torch.device("cuda")
+device = torch.device("cpu")
 
 model_weights = load_url(models_urls['s3fd'])
 

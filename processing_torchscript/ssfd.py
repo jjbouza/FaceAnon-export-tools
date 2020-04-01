@@ -7,6 +7,7 @@ class preprocess_ssfd(nn.Module):
         super(preprocess_ssfd, self).__init__()
 
     def forward(self, img):
+        img = img[0].permute(1,2,0)
         img = img - torch.tensor([104, 117, 123])
         img = img.permute(2, 0, 1)
         img = img.unsqueeze(0)
@@ -67,7 +68,7 @@ def export_model_script(model, fname):
     print("Exporting ", fname, "...")
     model_instance = model()
     model_script = torch.jit.script(model_instance)
-    model_script.save('processing_modules/'+fname+'.zip')
+    model_script.save('processing_modules/'+fname+'.pt')
     print("Done exporting ", fname)
 
 if __name__ == '__main__':
