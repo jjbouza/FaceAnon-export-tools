@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class L2Norm(nn.Module):
     def __init__(self, n_channels, scale=1.0):
         super(L2Norm, self).__init__()
@@ -19,7 +18,6 @@ class L2Norm(nn.Module):
         norm = x.pow(2).sum(dim=1, keepdim=True).sqrt() + self.eps
         x = x / norm * self.weight.view(1, -1, 1, 1)
         return x
-
 
 class s3fd(nn.Module):
     def __init__(self):
@@ -128,4 +126,5 @@ class s3fd(nn.Module):
         bmax = torch.max(torch.max(chunk[0], chunk[1]), chunk[2])
         cls1 = torch.cat([bmax, chunk[3]], dim=1)
 
-        return [cls1, reg1, cls2, reg2, cls3, reg3, cls4, reg4, cls5, reg5, cls6, reg6]
+        outputs = [cls1, reg1, cls2, reg2, cls3, reg3, cls4, reg4, cls5, reg5, cls6, reg6]
+        return [output.contiguous() for output in outputs]
