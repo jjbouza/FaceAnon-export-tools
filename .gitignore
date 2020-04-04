@@ -1,4 +1,5 @@
 face-aligment/**
+.DS_store
 *__pycache__*
 *.onnx
 *.zip
@@ -6,3 +7,4 @@ face-aligment/**
 *.mlmodel
 build/
 .vscode
+*/test/
