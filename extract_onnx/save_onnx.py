@@ -1,6 +1,7 @@
 import numpy
 import torch
 from torch.utils.model_zoo import load_url
+from torchvision.models.detection import keypointrcnn_resnet50_fpn
 from skimage import io
 
 models_urls = {
@@ -24,7 +25,7 @@ def save_onnx_ssfd(net, img, device):
 
 def save_onnx_keypointrcnn(net, img, device):
     img = img.transpose(2, 0, 1)
-    img = torch.from_numpy(img).float().to(device)
+    img = torch.from_numpy(img).float().to(device).unsqueeze(0)
     keypoints = net(img)
     keypoints = torch.onnx.export(net, 
                                   img, 
@@ -32,7 +33,7 @@ def save_onnx_keypointrcnn(net, img, device):
                                   export_params=True,
                                   input_names=['input_img'],
                                   output_names=['keypoints', 'scores'],
-                                  example_outputs=keypoints)
+                                  opset_version=11)
 
 from net_s3fd import s3fd
 from keypointrcnn import KeypointDetector
@@ -49,8 +50,11 @@ face_detector.eval()
 save_onnx_ssfd(face_detector, img, device)
 
 # keypointrcnn model
-#keypointrcnn = KeypointDetector().to(device)
+keypointrcnn = keypointrcnn_resnet50_fpn(pretrained=True)
 #keypointrcnn = torch.jit.script(keypointrcnn)
-#keypointrcnn.eval()
+keypointrcnn.eval()
+x = [torch.rand(3, 300, 400), torch.rand(3, 500, 400)]
+predictions =keypointrcnn(x)
+torch.onnx.export(keypointrcnn, x, "keypoint_rcnn.onnx", opset_version = 11)
 #save_onnx_keypointrcnn(keypointrcnn, img, device)
 #

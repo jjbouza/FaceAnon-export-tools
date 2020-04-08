@@ -61,7 +61,7 @@ class postprocess_ssfd(nn.Module):
         poss = []
 
         for i in range(len(olist) // 2):
-            olist[i * 2] = F.softmax(olist[i * 2], 1)
+            olist[i * 2] = F.softmax(olist[i * 2], dim=1)
         for i in range(len(olist) // 2):
             ocls, oreg = olist[i * 2], olist[i * 2 + 1]
             stride = 2**(i + 2)    # 4,8,16,32,64,128
@@ -95,7 +95,7 @@ class postprocess_ssfd(nn.Module):
         bboxlist_ = bboxlist_[keep, :]
         bboxlist_ = bboxlist_[torch.where(bboxlist_[:,4] > 0.5)[0]]
 
-        return bboxlist_
+        return bboxlist_.clone()
 
 def export_model_script(model, fname):
     print("Exporting ", fname, "...")
