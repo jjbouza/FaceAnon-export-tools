@@ -36,7 +36,6 @@ def save_onnx_keypointrcnn(net, img, device):
                                   opset_version=11)
 
 from net_s3fd import s3fd
-from keypointrcnn import KeypointDetector
 
 device = torch.device("cpu")
 img = io.imread('./aflw-test.jpg')
@@ -49,12 +48,3 @@ face_detector.to(device)
 face_detector.eval()
 save_onnx_ssfd(face_detector, img, device)
 
-# keypointrcnn model
-keypointrcnn = keypointrcnn_resnet50_fpn(pretrained=True)
-#keypointrcnn = torch.jit.script(keypointrcnn)
-keypointrcnn.eval()
-x = [torch.rand(3, 300, 400), torch.rand(3, 500, 400)]
-predictions =keypointrcnn(x)
-torch.onnx.export(keypointrcnn, x, "keypoint_rcnn.onnx", opset_version = 11)
-#save_onnx_keypointrcnn(keypointrcnn, img, device)
-#

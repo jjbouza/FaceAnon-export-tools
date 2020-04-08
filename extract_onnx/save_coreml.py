@@ -12,6 +12,3 @@ flexible_shape_utils.set_multiarray_ndshape_range(spec, feature_name='input_img'
 mlmodel = coremltools.models.MLModel(spec)
 mlmodel.save('./sfd_detector.mlmodel')
 
-# Not working:
-mlmodel = convert(model='./keypointrcnn.onnx', minimum_ios_deployment_target='13')
-mlmodel.save('./keypointrcnn.mlmodel')
