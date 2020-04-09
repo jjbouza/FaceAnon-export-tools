@@ -35,15 +35,15 @@ def test_generator(imgf, novel_im=True):
     generator_model = torch.jit.load(generatorf)
     inp = torch.load('generator_inputs.pt')
     im, keypoints, z = inp["im"], inp["keypoints"], inp["z"]
-    out = generator_model(im, keypoints, z)
-    
+    out = []
+    for i in range(im.shape[0]):
+        out.append(generator_model(im[i:i+1], keypoints[i:i+1], z))
+    out = torch.cat(out)    
+
     # compare
     out_gt = torch.load("generator_outputs.pt")
     if torch.abs(torch.mean( (out_gt - out))) < 0.05:
         print("Passed...")
-
-    plt.imshow(out[0][1].detach().numpy())
-    plt.show()
     
 if __name__ == '__main__':
-    test_generator('sample.jpeg', True)
+    test_generator('sample.jpeg', False)
