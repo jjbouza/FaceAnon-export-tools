@@ -15,7 +15,7 @@ def save_onnx_ssfd(net, img, device):
     out = net(img)
     olist = torch.onnx.export(net, 
                               img,
-                              f='sfd_detector.onnx', 
+                              f='outputs/sfd_detector.onnx', 
                               export_params=True, 
                               input_names=['input_img'],
                               output_names=['ol1', 'ol2', 'ol3', 'ol4', 'ol5', 'ol6', 

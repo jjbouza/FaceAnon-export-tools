@@ -1,3 +1,4 @@
+mkdir -p test
 cd test 
 rm -rf *
 git clone https://github.com/jjbouza/face-alignment.git

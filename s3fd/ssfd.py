@@ -101,7 +101,7 @@ def export_model_script(model, fname):
     print("Exporting ", fname, "...")
     model_instance = model()
     model_script = torch.jit.script(model_instance)
-    model_script.save('processing_modules/'+fname+'.pt')
+    model_script.save('./outputs/'+fname+'.pt')
     print("Done exporting ", fname)
 
 if __name__ == '__main__':
