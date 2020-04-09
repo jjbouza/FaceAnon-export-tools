@@ -28,25 +28,20 @@ def run_align_torchscript(img):
     fpostprocess ='../processing_torchscript/processing_modules/postprocess_ssfd.pt' 
     fssfd = '../extract_onnx/sfd_detector.onnx'
     fssfdcml = '../extract_onnx/sfd_detector.mlmodel'
-    keypointrcnnf = '../extract_onnx/keypointrcnn.pt'
 
     preprocess = torch.jit.load(fpreprocess)
     postprocess = torch.jit.load(fpostprocess)
     #ssfd = onnxruntime.InferenceSession(fssfd)
     ssfd_corml = coremltools.models.MLModel(fssfdcml)
-    keypointrcnn = torch.jit.load(keypointrcnnf)
 
     img_o = preprocess(torch.from_numpy(img).float())
-    input_name = ssfd.get_inputs()[0].name
+    #input_name = ssfd.get_inputs()[0].name
     #res = ssfd.run(None, {input_name: img_o.numpy()})
     res = ssfd_corml.predict({'input_img': img_o.numpy()})
     names = ['ol1', 'ol2', 'ol3', 'ol4', 'ol5', 'ol6', 'ol7', 'ol8', 'ol9', 'ol10', 'ol11', 'ol12']
     olist = [torch.from_numpy(res[n]) for n in names]
     olist = correct_coreml_dims(olist)
     out= postprocess(*olist)
-
-    keypoints = keypointrcnn(img[0])
-    print(keypoints)
 
     return out, img_o, olist
 
@@ -55,7 +50,6 @@ img = io.imread("sample.jpeg")
 if img.shape[2] == 4:
     img = img[:,:,:3]
 img = img.reshape((1,)+img.shape).transpose(0,3,1,2)[:,:,:,:][:, :, :, :].copy()
-print(img.shape)
 out1, img1, olist1= run_align_torchscript(img)
 out2, img2, olist2= run_align_pytorch(img)
 
