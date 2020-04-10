@@ -388,7 +388,7 @@ def load_generator(ckptf, configf, device):
 
 if __name__ == "__main__":
     dev = torch.device('cpu')
-    g = load_generator("./default_cpu.ckpt", "config_default.yml", dev)
+    g = load_generator("./large_cpu.ckpt", "large_config.yml", dev)
     
 
 

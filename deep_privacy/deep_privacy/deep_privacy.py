@@ -33,6 +33,9 @@ class deep_privacy(nn.Module):
 
         self.post_process = torch.jit.trace(post.post_process, (img, out, expanded_bbox, bbox))
 
+    def new_z(self):
+        self.static_z = torch.randn(1, 32, 4, 4)
+
     def forward(self, img, keypoints, bbox, n):
         # img: [H, W, 3]
         # keypoints: [n, 7, 2]

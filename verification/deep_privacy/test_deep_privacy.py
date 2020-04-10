@@ -29,4 +29,4 @@ def test(imgf, novel_img=True):
     plt.show()
     
 if __name__ == '__main__':
-    test('sample3.jpeg', True)
+    test('images/sample.jpeg', True)

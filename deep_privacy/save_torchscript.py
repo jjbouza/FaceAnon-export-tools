@@ -12,6 +12,7 @@ def save_deep_privacy(net, inp, device):
 
     model = torch.jit.script(net)
     model.save("./deep_privacy/deep_privacy.pt")
+    print("Saved deep_privacy")
 
 def save_preprocessing(block, inp, device):
     img, keypoints, bbox= inp["im"], inp["keypoints"], inp["bbox"]
