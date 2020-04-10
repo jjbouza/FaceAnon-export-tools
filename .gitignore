@@ -7,6 +7,6 @@ face-aligment/**
 *.mlmodel
 build/
 .vscode
-*/test/
+test/
 *.ckpt
 .debug

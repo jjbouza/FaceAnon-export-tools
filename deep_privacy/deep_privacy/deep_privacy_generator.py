@@ -370,7 +370,6 @@ def load_config(config_path):
 
 def load_generator(ckptf, configf, device):
     ckpt = torch.load(ckptf, device)
-    print(ckpt.keys())
     imsize = ckpt["current_imsize"]
     config = load_config(configf)
 

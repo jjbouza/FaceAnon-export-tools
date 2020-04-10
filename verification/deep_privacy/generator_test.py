@@ -11,8 +11,8 @@ import matplotlib.image as mpimg
 
 def run_gt(imgf):
     # run original DeepPrivacy modified to save results locally
-    config = load_config("test/models/isvc_large/config.yml")
-    checkpoint = torch.load("test/models/isvc_large/checkpoints/step_40000000.ckpt")
+    config = load_config("test/models/default/config.yml")
+    checkpoint = torch.load("test/models/default/checkpoints/step_40000000.ckpt")
     generator = infer.init_generator(config, checkpoint)
     anonymizer = deep_privacy_anonymizer.DeepPrivacyAnonymizer(generator,
                                                                batch_size=1,
@@ -31,7 +31,7 @@ def test_generator(imgf, novel_im=True):
         run_gt(imgf)
     
     # run torchscript DeepPrivacy
-    generatorf = "../extract_onnx/generator.pt"
+    generatorf = "../../deep_privacy/deep_privacy/generator.pt"
     generator_model = torch.jit.load(generatorf)
     inp = torch.load('generator_inputs.pt')
     im, keypoints, z = inp["im"], inp["keypoints"], inp["z"]
@@ -42,8 +42,8 @@ def test_generator(imgf, novel_im=True):
 
     # compare
     out_gt = torch.load("generator_outputs.pt")
-    if torch.abs(torch.mean( (out_gt - out))) < 0.05:
+    if torch.abs(torch.mean( (out_gt - out))) < 0.005:
         print("Passed...")
     
 if __name__ == '__main__':
-    test_generator('sample.jpeg', False)
+    test_generator('sample3.jpeg', True)
