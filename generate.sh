@@ -21,7 +21,10 @@ echo ---------------------------------------------------------------------------
 
 echo Exporting deep_privacy components...
 echo -----------------------------------------------------------------------------------------
-cd deep_privacy
+cd verification/deep_privacy
+python3 inout_generate.py
+cp preprocess_input.pt generator_inputs.pt postprocess_inputs.pt ../../deep_privacy/deep_privacy
+cd ../../deep_privacy
 echo Exporting Torchscript components...
 python3 save_torchscript.py
 echo Warning: did not copy generated model files to XCode.

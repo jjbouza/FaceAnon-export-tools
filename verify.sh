@@ -6,4 +6,6 @@ cd ../..
 
 echo Testing deep_privacy components
 echo -----------------------------------------------------------------------------------------
-echo Not implemented...
+cd ./verification/deep_privacy
+python3 test_deep_privacy.py
+echo Output example:

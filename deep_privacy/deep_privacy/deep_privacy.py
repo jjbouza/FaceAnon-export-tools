@@ -27,7 +27,10 @@ class deep_privacy(nn.Module):
         self.generator = torch.jit.trace(gener, (img, keypoints, z))
         
         post_inputs = torch.load("./deep_privacy/postprocess_inputs.pt")
-        img, out, expanded_bbox, bbox = post_inputs["img"], post_inputs["out"], post_inputs["expanded_bbox"], post_inputs["bbox"]
+        face_info, generated_faces, image = post_inputs["face_info"], post_inputs["generated_faces"], post_inputs["images"]
+        img, out, expanded_bbox, bbox = image[0], generated_faces, face_info[0]["expanded_bbox"], face_info[0]["face_bbox"]
+        img, expanded_bbox, bbox = torch.from_numpy(img), torch.from_numpy(expanded_bbox), torch.from_numpy(bbox)
+
         self.post_process = torch.jit.trace(post.post_process, (img, out, expanded_bbox, bbox))
 
     def forward(self, img, keypoints, bbox, n):
